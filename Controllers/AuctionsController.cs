@@ -28,14 +28,25 @@ namespace igor_auction_service.Controllers
             return result is not null ? Ok(result) : NoContent();
         }
 
+        //[HttpPost("PlaceBid")]
+        ////[ProducesResponseType(typeof(List<Auction>), StatusCodes.Status200OK)]
+        //[ProducesResponseType(StatusCodes.Status204NoContent)]
+        //[ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
+        //public async Task<IActionResult> PlaceBid(int auctionId, int newBid)
+        //{
+        //    var auction = Auctions.FirstOrDefault(x => x.AuctionId == auctionId);
+        //    if (auction != null) auction.CurrentBid = newBid;
+        //    return Ok();
+        //}
+
         [HttpPost("PlaceBid")]
-        [ProducesResponseType(typeof(List<Auction>), StatusCodes.Status200OK)]
+        //[ProducesResponseType(typeof(List<Auction>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
-        public async Task<IActionResult> PlaceBid(int auctionId, int newBid)
+        public async Task<IActionResult> PlaceBid([FromBody] Bid request)
         {
-            var auction = Auctions.FirstOrDefault(x => x.AuctionId == auctionId);
-            if (auction != null) auction.CurrentBid = newBid;
+            var auction = Auctions.FirstOrDefault(x => x.AuctionId == request.AuctionId);
+            if (auction != null) auction.CurrentBid = request.BidValue;
             return Ok();
         }
     }
