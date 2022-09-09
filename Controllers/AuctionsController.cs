@@ -47,7 +47,7 @@ namespace igor_auction_service.Controllers
         {
             var auction = Auctions.FirstOrDefault(x => x.AuctionId == request.AuctionId);
             if (auction != null) auction.CurrentBid = request.BidValue;
-            return Ok();
+            return Ok(auction);
         }
     }
 }
