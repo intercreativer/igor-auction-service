@@ -1,3 +1,5 @@
+using igor_auction_service.Hubs;
+
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +11,7 @@ builder.Services.AddCors(options =>
                       {
                           policy.WithOrigins("https://localhost:4888")
                                 .AllowAnyMethod()
+                                .AllowCredentials()
                                 .AllowAnyHeader();
                       });
 });
@@ -16,6 +19,7 @@ builder.Services.AddCors(options =>
 // Add services to the container.
 
 builder.Services.AddControllers();
+builder.Services.AddSignalR();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -36,5 +40,7 @@ app.UseCors(MyAllowSpecificOrigins);
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapHub<AuctionHub>("/auctionhub");
 
 app.Run();
